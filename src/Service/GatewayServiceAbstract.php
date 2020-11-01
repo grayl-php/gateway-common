@@ -2,7 +2,8 @@
 
    namespace Grayl\Gateway\Common\Service;
 
-   use Grayl\Config\Controller\ConfigController;
+   use Grayl\Gateway\Common\Config\GatewayAPIEndpointAbstract;
+   use Grayl\Gateway\Common\Config\GatewayConfigAbstract;
 
    /**
     * Abstract class GatewayServiceAbstract
@@ -16,29 +17,29 @@
       /**
        * Gets the credentials for the gateway based on the environment
        *
-       * @param ConfigController $config      The ConfigController entity containing the API settings
-       * @param string           $environment The API environment to use (live, sandbox, etc.)
-       * @param string           $endpoint_id The API endpoint ID to use (typically "default" is there is only one API gateway)
+       * @param GatewayConfigAbstract $config          The GatewayConfigAbstract entity containing the API endpoint settings
+       * @param string                $environment     The API environment to use (live, sandbox, etc.)
+       * @param string                $api_endpoint_id The API endpoint ID to use (typically "default" if there is only one API gateway)
        *
-       * @return array
+       * @return GatewayAPIEndpointAbstract
        * @throws \Exception
        */
-      public function getAPICredentials ( ConfigController $config,
-                                          string $environment,
-                                          string $endpoint_id ): array
+      public function getAPIEndpoint ( $config,
+                                       string $environment,
+                                       string $api_endpoint_id ): object
       {
 
-         // Get the API credentials from the config
-         $credentials = $config->getConfig( 'api' );
+         // Get the API endpoint from the config
+         $api_endpoint = ( $environment == 'live' ? $config->getLiveAPIEndpoint( $api_endpoint_id ) : $config->getSandboxAPIEndpoint( $api_endpoint_id ) );
 
-         // Make sure we have credentials for this environment
-         if ( empty ( $credentials[ $environment ][ $endpoint_id ] ) ) {
+         // Make sure we have an API endpoint for this environment
+         if ( empty ( $api_endpoint ) ) {
             // Error, no APi credentials
             throw new \Exception( "Missing API credentials" );
          }
 
-         // Return the credentials for this environment
-         return $credentials[ $environment ][ $endpoint_id ];
+         // Return the API endpoint for this environment
+         return $api_endpoint;
       }
 
 

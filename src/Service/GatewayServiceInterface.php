@@ -2,7 +2,8 @@
 
    namespace Grayl\Gateway\Common\Service;
 
-   use Grayl\Config\Controller\ConfigController;
+   use Grayl\Gateway\Common\Config\GatewayAPIEndpointAbstract;
+   use Grayl\Gateway\Common\Config\GatewayConfigAbstract;
 
    /**
     * Interface GatewayServiceInterface
@@ -14,18 +15,18 @@
    {
 
       /**
-       * Gets the credentials for the gateway based on the environment
+       * Gets the API endpoint for the gateway based on the environment
        *
-       * @param ConfigController $config      The ConfigController entity containing the API settings
-       * @param string           $environment The API environment to use (live, sandbox, etc.)
-       * @param string           $endpoint_id The API endpoint ID to use (typically "default" is there is only one API gateway)
+       * @param GatewayConfigAbstract $config          The GatewayConfigAbstract entity containing the API endpoint settings
+       * @param string                $environment     The API environment to use (live, sandbox, etc.)
+       * @param string                $api_endpoint_id The API endpoint ID to use (typically "default" if there is only one API gateway)
        *
-       * @return array
+       * @return GatewayAPIEndpointAbstract
        * @throws \Exception
        */
-      public function getAPICredentials ( ConfigController $config,
-                                          string $environment,
-                                          string $endpoint_id ): array;
+      public function getAPIEndpoint ( $config,
+                                       string $environment,
+                                       string $api_endpoint_id ): object;
 
 
       /**
