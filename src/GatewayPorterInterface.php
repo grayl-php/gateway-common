@@ -2,6 +2,7 @@
 
    namespace Grayl\Gateway\Common;
 
+   use Grayl\Gateway\Common\Config\GatewayAPIEndpointAbstract;
    use Grayl\Gateway\Common\Entity\GatewayDataAbstract;
 
    /**
@@ -24,31 +25,31 @@
       /**
        * Gets a previously created GatewayDataAbstract object or creates a new one
        *
-       * @param string $endpoint_id The API endpoint ID to use (typically "default" is there is only one API gateway)
+       * @param string $api_endpoint_id The API endpoint ID to use (typically "default" if there is only one API gateway)
        *
        * @return GatewayDataAbstract
        * @throws \Exception
        */
-      public function getSavedGatewayDataEntity ( string $endpoint_id ): object;
+      public function getSavedGatewayDataEntity ( string $api_endpoint_id ): object;
 
 
       /**
        * Creates a new GatewayDataAbstract entity
        *
-       * @param string $endpoint_id The API endpoint ID to use (typically "default" is there is only one API gateway)
+       * @param string $api_endpoint_id The API endpoint ID to use (typically "default" if there is only one API gateway)
        *
        * @return GatewayDataAbstract
        * @throws \Exception
        */
-      public function newGatewayDataEntity ( string $endpoint_id ): object;
+      public function newGatewayDataEntity ( string $api_endpoint_id ): object;
 
 
       /**
        * Creates a new API object for use in a GatewayDataAbstract entity
        *
-       * @param array $credentials An array containing all of the credentials needed to create the gateway API
+       * @param GatewayAPIEndpointAbstract $api_endpoint A GatewayAPIEndpointAbstract with credentials needed to create a gateway API object
        *
        * @return object
        */
-      public function newGatewayAPI ( array $credentials ): object;
+      public function newGatewayAPI ( $api_endpoint ): object;
    }
